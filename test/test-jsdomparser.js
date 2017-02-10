@@ -5,9 +5,9 @@ var expect = chai.expect;
 var readability = require("../index.js");
 var JSDOMParser = readability.JSDOMParser;
 
-var BASETESTCASE = '<html><body><p>Some text and <a class="someclass" href="#">a link</a></p>' +
-                   '<div id="foo">With a <script>With < fancy " characters in it because' +
-                   '</script> that is fun.<span>And another node to make it harder</span></div><form><input type="text"/><input type="number"/>Here\'s a form</form></body></html>';
+var BASETESTCASE = "<html><body><p>Some text and <a class=\"someclass\" href=\"#\">a link</a></p>" +
+                   "<div id=\"foo\">With a <script>With < fancy \" characters in it because" +
+                   "</script> that is fun.<span>And another node to make it harder</span></div><form><input type=\"text\"/><input type=\"number\"/>Here's a form</form></body></html>";
 
 var baseDoc = new JSDOMParser().parse(BASETESTCASE);
 
@@ -29,11 +29,11 @@ describe("Test JSDOM functionality", function() {
     expect(baseDoc.body.childNodes.length).eql(3);
 
     var generatedHTML = baseDoc.getElementsByTagName("p")[0].innerHTML;
-    expect(generatedHTML).eql('Some text and <a class="someclass" href="#">a link</a>');
+    expect(generatedHTML).eql("Some text and <a class=\"someclass\" href=\"#\">a link</a>");
     var scriptNode = baseDoc.getElementsByTagName("script")[0];
     generatedHTML = scriptNode.innerHTML;
-    expect(generatedHTML).eql('With < fancy " characters in it because');
-    expect(scriptNode.textContent).eql('With < fancy " characters in it because');
+    expect(generatedHTML).eql("With < fancy \" characters in it because");
+    expect(scriptNode.textContent).eql("With < fancy \" characters in it because");
 
   });
 
@@ -110,7 +110,7 @@ describe("Test JSDOM functionality", function() {
   });
 
   it("should have a working replaceChild", function() {
-    var parent = baseDoc.getElementsByTagName('div')[0];
+    var parent = baseDoc.getElementsByTagName("div")[0];
     var p = baseDoc.createElement("p");
     p.setAttribute("id", "my-replaced-kid");
     var childCount = parent.childNodes.length;
@@ -216,7 +216,7 @@ describe("Test HTML escaping", function() {
     // the innerHTML correctly.
     txtNode.textContent = txtNode.textContent + " ";
     txtNode.textContent = txtNode.textContent.trim();
-    var expectedHTML = baseStr.replace("&quot;", '"').replace("&apos;", "'");
+    var expectedHTML = baseStr.replace("&quot;", "\"").replace("&apos;", "'");
     expect("<p>" + txtNode.innerHTML + "</p>").eql(expectedHTML);
     expect("<p>" + p.innerHTML + "</p>").eql(expectedHTML);
 
@@ -231,7 +231,7 @@ describe("Test HTML escaping", function() {
 
 describe("Script parsing", function() {
   it("should strip ?-based comments within script tags", function() {
-    var html = '<script><?Silly test <img src="test"></script>';
+    var html = "<script><?Silly test <img src=\"test\"></script>";
     var doc = new JSDOMParser().parse(html);
     expect(doc.firstChild.tagName).eql("SCRIPT");
     expect(doc.firstChild.textContent).eql("");
@@ -240,7 +240,7 @@ describe("Script parsing", function() {
   });
 
   it("should strip !-based comments within script tags", function() {
-    var html = '<script><!--Silly test > <script src="foo.js"></script>--></script>';
+    var html = "<script><!--Silly test > <script src=\"foo.js\"></script>--></script>";
     var doc = new JSDOMParser().parse(html);
     expect(doc.firstChild.tagName).eql("SCRIPT");
     expect(doc.firstChild.textContent).eql("");

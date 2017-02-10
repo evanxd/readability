@@ -33,7 +33,7 @@
     "lt": "<",
     "gt": ">",
     "amp": "&",
-    "quot": '"',
+    "quot": "\"",
     "apos": "'",
   };
 
@@ -41,7 +41,7 @@
     "<": "&lt;",
     ">": "&gt;",
     "&": "&amp;",
-    '"': "&quot;",
+    "\"": "&quot;",
     "'": "&apos;",
   };
 
@@ -661,8 +661,8 @@
               var attr = child.attributes[j];
               // the attribute value will be HTML escaped.
               var val = attr.value;
-              var quote = (val.indexOf('"') === -1 ? '"' : "'");
-              arr.push(" " + attr.name + '=' + quote + val + quote);
+              var quote = (val.indexOf("\"") === -1 ? "\"" : "'");
+              arr.push(" " + attr.name + "=" + quote + val + quote);
             }
 
             if (child.localName in voidElems && !child.childNodes.length) {
@@ -902,7 +902,7 @@
 
       // After a '=', we should see a '"' for the attribute value
       var c = this.nextChar();
-      if (c !== '"' && c !== "'") {
+      if (c !== "\"" && c !== "'") {
         this.error("Error reading attribute " + name + ", expecting '\"'");
         return;
       }
@@ -935,7 +935,7 @@
         strBuf.push(c);
         c = this.nextChar();
       }
-      var tag = strBuf.join('');
+      var tag = strBuf.join("");
 
       if (!tag)
         return false;
@@ -1058,7 +1058,7 @@
         while (c !== ">") {
           if (c === undefined)
             return null;
-          if (c === '"' || c === "'")
+          if (c === "\"" || c === "'")
             this.readString(c);
           c = this.nextChar();
         }

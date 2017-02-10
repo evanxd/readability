@@ -65,7 +65,7 @@ function Readability(uri, doc, options) {
     logEl = function(e) {
       var rv = e.nodeName + " ";
       if (e.nodeType == e.TEXT_NODE) {
-        return rv + '("' + e.textContent + '")';
+        return rv + "(\"" + e.textContent + "\")";
       }
       var classDesc = e.className && ("." + e.className.replace(/ /g, "."));
       var elDesc = "";

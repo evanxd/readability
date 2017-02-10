@@ -93,10 +93,10 @@ function runTestsWithItems(label, domGenerationFn, uri, source, expectedContent,
 
       function genPath(node) {
         if (node.id) {
-          return '#' + node.id;
+          return "#" + node.id;
         }
         if (node.tagName == "BODY") {
-          return 'body';
+          return "body";
         }
         var parent = node.parentNode;
         var parentPath = genPath(parent);

@@ -498,10 +498,10 @@ Readability.prototype = {
     this._clean(articleContent, "h1");
     this._clean(articleContent, "footer");
 
-    // Clean out elements have "share" in their id/class combinations from final top candidates,
-    // which means we don't remove the top candidates even they have "share".
+    // Clean out elements have "share" or "editor" in their id/class combinations from final top candidates,
+    // which means we don't remove the top candidates even they have "share" or "editor".
     this._forEachNode(articleContent.children, function(topCandidate) {
-      this._cleanMatchedNodes(topCandidate, /share/);
+      this._cleanMatchedNodes(topCandidate, /share|editor/);
     });
 
     // If there is only one h2 and its text content substantially equals article title,
